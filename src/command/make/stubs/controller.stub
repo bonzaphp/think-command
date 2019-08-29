@@ -1,0 +1,185 @@
+<?php
+/**
+ * Created by yang
+ * User: bonzaphp@gmail.com
+ * Date: {%date%}
+ * Time: {%time%}
+ */
+
+namespace {%namespace%};
+
+
+use think\Controller;
+use think\Request;
+use app\admin\traits\ResponseMsg;
+use think\App;
+
+class {%className%} extends Controller
+{
+    use ResponseMsg;
+    /**
+     * @var \app\{%module%}\service\${%className%}
+     */
+    private ${%fieldName%};
+
+    public function __construct(App $app = null)
+    {
+        parent::__construct($app);
+        $this->{%fieldName%} = new \app\{%module%}\service\{%className%}();
+    }
+
+    /**
+     * 显示资源列表
+     *
+     * @return \think\Response
+     */
+    public function index{%actionSuffix%}(): \think\Response
+    {
+        try {
+            ${%fieldName%}= $this->{%fieldName%}->get{%className%}List();
+            if (!empty(${%fieldName%})) {
+                return self::showSuccessMsg('success', ${%fieldName%});
+            }
+            return self::showErrorMsg(400, '您查询的资源不存在');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage(), []);
+        }
+    }
+
+    /**
+     * 显示创建资源表单页.
+     *
+     * @return \think\Response
+     */
+    public function create{%actionSuffix%}(): \think\Response
+    {
+        $id = 7;
+        try {
+            ${%fieldName%}= $this->{%fieldName%}::findOrEmpty($id);
+            if (!${%fieldName%}->isEmpty()) {
+                return self::showSuccessMsg('success', ${%fieldName%}->toArray());
+            }
+            return self::showErrorMsg(400, '您查询的资源不存在');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage(), []);
+        }
+    }
+
+    /**
+     * 保存新建的资源
+     *
+     * @param  Request  $request
+     * @return \think\Response
+     */
+    public function save{%actionSuffix%}(Request $request): \think\Response
+    {
+        $post = $request->post();
+        $validate = new \app\{%module%}\validate\{%className%}();
+        if (!$validate->scene('save')->check($post)) {
+            return self::showErrorMsg(400 , 'error' ,$validate->getError());
+        }
+        try {
+
+            $condition = [
+                ['${%fieldName%}_name', '=', $post['${%fieldName%}_name']],
+            ];
+            ${%fieldName%}= $this->{%fieldName%}::withTrashed()->where($condition)->select();
+            //先判断是否已经有同名记录，如果没有，再添加(包含已经软删除的)
+            if (${%fieldName%}->isEmpty()) {
+                ${%fieldName%}= $this->{%fieldName%}->allowField(true)->save($post);
+                if (${%fieldName%}) {
+                    return self::showSuccessMsg('success', []);
+                }
+                return self::showErrorMsg(400, '添加职位失败');
+            }
+            return self::showErrorMsg(400, '添加职位失败,职位名已经存在');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage(), []);
+        }
+    }
+
+    /**
+     * 显示指定的资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function read{%actionSuffix%}($id): \think\Response
+    {
+        try {
+            ${%fieldName%}= $this->{%fieldName%}::findOrEmpty($id);
+            if (!${%fieldName%}->isEmpty()) {
+                return self::showSuccessMsg('success', ${%fieldName%}->toArray());
+            }
+            return self::showErrorMsg(400, '您查询的资源不存在');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage(), []);
+        }
+    }
+
+    /**
+     * 显示编辑资源表单页.
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function edit{%actionSuffix%}($id): \think\Response
+    {
+        try {
+            ${%fieldName%} = $this->{%fieldName%}::findOrEmpty($id);
+            if (!${%fieldName%}->isEmpty()) {
+                return self::showSuccessMsg('success', ${%fieldName%}->toArray());
+            }
+            return self::showErrorMsg(400, '您查询的资源不存在');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage(), []);
+        }
+    }
+
+    /**
+     * 保存更新的资源
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function update{%actionSuffix%}(Request $request, $id): \think\Response
+    {
+        $validate = new \app\{%module%}\validate\{%className%}();
+        if (!$validate->check($request->param())) {
+            return self::showErrorMsg(400 , 'error' , $validate->getError());
+        }
+        try {
+            ${%fieldName%}= $this->{%fieldName%}::find($id);
+            if (${%fieldName%}) {
+                $data = $request->param();
+                //由于模型默认会更新部分数据，所以，必须加上allowField方法,只更新数据表中有的字段
+                $res= ${%fieldName%}->data($data, true)->allowField(true)->save();
+                if ($res) {
+                    return self::showSuccessMsg('success');
+                }
+                return self::showErrorMsg(400, '请提供新信息,更新失败');
+            }
+            return self::showErrorMsg(400, '您提供的信息不正确或者用户不存在');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage());
+        }
+    }
+
+    /**
+     * 删除指定资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function delete{%actionSuffix%}($id): \think\Response
+    {
+        try {
+            $this->{%fieldName%}::destroy($id);
+            //这里资源存不存在，都默认返回成功，除非异常报错。
+            return self::showSuccessMsg('success');
+        } catch (\Exception $e) {
+            return self::showExceptionMsg(400, $e->getMessage());
+        }
+    }
+}

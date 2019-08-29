@@ -1,0 +1,19 @@
+<?php
+/**
+ * Created by yang
+ * User: bonzaphp@gmail.com
+ * Date: {%date%}
+ * Time: {%time%}
+ */
+
+ namespace {%namespace%};
+
+ use app\http\core\BonzaModel;
+
+ class {%className%} extends BonzaModel
+ {
+
+     protected $pk = 'id';
+     protected $table = '{%module%}_{%fieldName%}';
+
+ }

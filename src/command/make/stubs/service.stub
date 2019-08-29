@@ -1,0 +1,42 @@
+<?php
+/**
+ * Created by yang
+ * User: bonzaphp@gmail.com
+ * Date: {%date%}
+ * Time: {%time%}
+ */
+namespace {%namespace%};
+
+use app\common\model\{%className%} as m{%className%};
+
+class {%className%} extends m{%className%}
+{
+    /**
+     * 获取{%fieldName%}列表
+     * @param array $condition
+     * @param array $fields
+     * @param string $order
+     * @return array
+     * @throws \Exception
+     */
+    public function get{%className%}List(array $condition = [], array $fields = [], string $order = '') :array
+    {
+        try {
+            //判断是否有字段排除
+            if (isset($fields['except']) && $fields['except'] === true) {
+                ${%fieldName%} = static::where($condition)->field($fields['fields'], $fields['except'])->order($order)->select();
+                if (${%fieldName%}->isEmpty()) {
+                    return [];
+                }
+                return ${%fieldName%}->toArray();
+            }
+            ${%fieldName%} = static::where($condition)->field($fields)->order($order)->select();
+            if (${%fieldName%}->isEmpty()) {
+                return [];
+            }
+            return ${%fieldName%}->toArray();
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        }
+    }
+}

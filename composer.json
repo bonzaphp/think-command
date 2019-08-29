@@ -1,0 +1,32 @@
+{
+  "name": "bonza/think-command",
+  "description": "自定义命令行，快速生成thinkphp5.1的模型，控制器，验证器和服务层",
+  "license": "Apache-2.0",
+  "type": "bonza-extend",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "bonza",
+      "email": "bonzaphp@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "topthink/think-installer": "^2.0",
+    "topthink/framework": "^5.1.18",
+    "ext-fileinfo": "*"
+  }
+  ,
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "bonza\\think\\command\\": "src"
+    },
+    "files": [
+      "src/command.php"
+    ]
+  },
+  "extra": {
+  }
+}
