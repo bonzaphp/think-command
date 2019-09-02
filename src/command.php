@@ -6,11 +6,15 @@
  * Time: 14:20
  */
 
+use bonza\think\command\command\make\Msvc;
+use bonza\think\command\command\make\Models;
+use bonza\think\command\command\make\Action;
+use bonza\think\command\command\make\Service;
 use think\Console;
 
-/*Console::addDefaultCommands([
-    'bonza:service'=>'\\bonza\\think\\command\\make\\Service',
-    'bonza:action'=>'\\bonza\\think\\command\\make\\Action',
-    'bonza:models'=>'\\bonza\\think\\command\\make\\Models',
-    'bonza:msvc'=>'\\bonza\\think\\command\\make\\Msvc',
-]);*/
+Console::addDefaultCommands([
+    'bonza:service' => Service::class,
+    'bonza:action'  => Action::class,
+    'bonza:models'  => Models::class,
+    'bonza:msvc'    => Msvc::class,
+]);

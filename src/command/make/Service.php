@@ -6,7 +6,7 @@
  * Time: 16:58
  */
 
-namespace bonza\think\command\make;
+namespace bonza\think\command\command\make;
 
 use think\console\command\Make;
 use think\facade\App;
@@ -16,17 +16,16 @@ class Service extends Make
 {
     protected $type = 'Service';
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
-        $this->setName('make:service')
+        $this->setName('bonza:service')
             ->setDescription('Create a service class');
     }
 
-    protected function getStub()
+    protected function getStub(): string
     {
-        $stubPath = __DIR__ . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR;
-
+        $stubPath = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
         return $stubPath . 'service.stub';
     }
 
@@ -34,51 +33,49 @@ class Service extends Make
     {
         return parent::getNamespace($appNamespace, $module) . '\service';
     }
+
     /**
      * 获取时间
-     * @author bonzaphp@gmail.com
      * @return string
+     * @author bonzaphp@gmail.com
      */
-    protected function getTime():string
+    protected function getTime(): string
     {
         return date('H:i:s');
     }
 
     /**
      * 获取年月日
-     * @author bonzaphp@gmail.com
      * @return string
+     * @author bonzaphp@gmail.com
      */
-    protected function getDate():string
+    protected function getDate(): string
     {
         return date('y/m/d');
     }
 
     /**
      * 获取类名的单数形式
-     * @author bonzaphp@gmail.com
      * @param string $name 参数
      * @return string
+     * @author bonzaphp@gmail.com
      */
-    protected function getFieldName(string $name) :string
+    protected function getFieldName(string $name): string
     {
         $name = $this->getClassName($name);
         $namespace = trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
         $class = str_replace($namespace . '\\', '', $name);
-        return rtrim(strtolower(preg_replace_callback('/([a-z])([A-Z])/', static function($matches){
-            return $matches[1].'_'.$matches[2];
-        },$class)),'s');
+        return rtrim(strtolower(preg_replace_callback('/([a-z])([A-Z])/', static function ($matches) {
+            return $matches[1] . '_' . $matches[2];
+        }, $class)), 's');
     }
 
     protected function buildClass($name)
     {
         $stub = file_get_contents($this->getStub());
-
         $namespace = trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
-
         $class = str_replace($namespace . '\\', '', $name);
-
-        return str_replace(['{%className%}', '{%actionSuffix%}', '{%namespace%}', '{%app_namespace%}','{%fieldName%}','{%date%}','{%time%}'], [
+        return str_replace(['{%className%}', '{%actionSuffix%}', '{%namespace%}', '{%app_namespace%}', '{%fieldName%}', '{%date%}', '{%time%}'], [
             $class,
             Config::get('action_suffix'),
             $namespace,

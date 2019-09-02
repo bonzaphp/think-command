@@ -6,8 +6,7 @@
  * Time: 11:13
  */
 
-
-namespace bonza\think\command\make;
+namespace bonza\think\command\command\make;
 
 use think\console\command\Make;
 use think\facade\App;
@@ -17,45 +16,45 @@ class Models extends Make
 {
     protected $type = 'Model';
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
-        $this->setName('make:models')
+        $this->setName('bonza:models')
             ->setDescription('Create a new model class');
     }
 
-    protected function getStub()
+    protected function getStub(): string
     {
-        return __DIR__ . DIRECTORY_SEPARATOR;
+        return __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'model.stub';
     }
 
     /**
      * 获取时间
-     * @author bonzaphp@gmail.com
      * @return string
+     * @author bonzaphp@gmail.com
      */
-    protected function getTime():string
+    protected function getTime(): string
     {
         return date('H:i:s');
     }
 
     /**
      * 获取年月日
-     * @author bonzaphp@gmail.com
      * @return string
+     * @author bonzaphp@gmail.com
      */
-    protected function getDate():string
+    protected function getDate(): string
     {
         return date('y/m/d');
     }
 
     /**
      * 获取类名的单数形式
-     * @author bonzaphp@gmail.com
      * @param string $name 参数
      * @return string
+     * @author bonzaphp@gmail.com
      */
-    protected function getFieldName(string $name) :string
+    protected function getFieldName(string $name): string
     {
         $name = $this->getClassName($name);
         $namespace = trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
@@ -68,14 +67,10 @@ class Models extends Make
     protected function buildClass($name)
     {
         $stub = file_get_contents($this->getStub());
-
         $namespace = trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
-
         $class = str_replace($namespace . '\\', '', $name);
-
-        $module = explode('\\',$namespace)[1];
-
-        return str_replace(['{%className%}', '{%actionSuffix%}', '{%namespace%}', '{%app_namespace%}','{%fieldName%}','{%date%}','{%time%}','{%module%}'], [
+        $module = explode('\\', $namespace)[1];
+        return str_replace(['{%className%}', '{%actionSuffix%}', '{%namespace%}', '{%app_namespace%}', '{%fieldName%}', '{%date%}', '{%time%}', '{%module%}'], [
             $class,
             Config::get('action_suffix'),
             $namespace,
