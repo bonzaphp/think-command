@@ -18,8 +18,8 @@ use think\console\Output;
  * 用于批量执行命令
  * Class Msvc
  * @author bonzaphp@gmail.com
- * @Date {DATE}
- * @package bonza\think\command
+ * @Date 2019-09-02 17:40
+ * @package bonza\think\command\command\make
  */
 class Msvc extends Command
 {

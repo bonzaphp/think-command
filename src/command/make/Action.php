@@ -13,6 +13,13 @@ use think\console\input\Option;
 use think\facade\App;
 use think\facade\Config;
 
+/**
+ * 生成控制器
+ * Class Action
+ * @author bonzaphp@gmail.com
+ * @Date 2019-09-02 17:41
+ * @package bonza\think\command\command\make
+ */
 class Action extends Make
 {
     protected $type = 'Controller';

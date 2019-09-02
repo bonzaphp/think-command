@@ -12,6 +12,13 @@ use think\console\command\Make;
 use think\facade\App;
 use think\facade\Config;
 
+/**
+ * 生成数据服务
+ * Class Service
+ * @author bonzaphp@gmail.com
+ * @Date 2019-09-02 17:41
+ * @package bonza\think\command\command\make
+ */
 class Service extends Make
 {
     protected $type = 'Service';

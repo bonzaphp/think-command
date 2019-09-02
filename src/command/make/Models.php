@@ -12,6 +12,13 @@ use think\console\command\Make;
 use think\facade\App;
 use think\facade\Config;
 
+/**
+ * 生成模型
+ * Class Models
+ * @author bonzaphp@gmail.com
+ * @Date 2019-09-02 17:40
+ * @package bonza\think\command\command\make
+ */
 class Models extends Make
 {
     protected $type = 'Model';
