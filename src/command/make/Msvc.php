@@ -45,7 +45,7 @@ class Msvc extends Command
         $msg = [];
         $name = trim($input->getArgument('name'));
         foreach ($commands as $command) {
-            if ($command === 'make:models') {
+            if ($command === 'bonza:models') {
                 $m = preg_replace_callback('/^\w+/', static function () {
                     return 'common';
                 }, $name);

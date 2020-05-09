@@ -81,7 +81,7 @@ class {%className%} extends Controller
         try {
 
             $condition = [
-                ['${%fieldName%}_name', '=', $post['${%fieldName%}_name']],
+                ['{%fieldName%}_name', '=', $post['{%fieldName%}_name']],
             ];
             ${%fieldName%}= $this->{%fieldName%}::withTrashed()->where($condition)->select();
             //先判断是否已经有同名记录，如果没有，再添加(包含已经软删除的)

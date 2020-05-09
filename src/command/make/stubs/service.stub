@@ -24,13 +24,19 @@ class {%className%} extends m{%className%}
         try {
             //判断是否有字段排除
             if (isset($fields['except']) && $fields['except'] === true) {
-                ${%fieldName%} = static::where($condition)->field($fields['fields'], $fields['except'])->order($order)->select();
+                ${%fieldName%} = static::where($condition)
+                                        ->field($fields['fields'], $fields['except'])
+                                        ->order($order)
+                                        ->paginate();
                 if (${%fieldName%}->isEmpty()) {
                     return [];
                 }
                 return ${%fieldName%}->toArray();
             }
-            ${%fieldName%} = static::where($condition)->field($fields)->order($order)->select();
+            ${%fieldName%} = static::where($condition)
+                                    ->field($fields)
+                                    ->order($order)
+                                    ->paginate();
             if (${%fieldName%}->isEmpty()) {
                 return [];
             }
