@@ -40,7 +40,7 @@ class {%className%} extends Controller
             if (!empty(${%fieldName%})) {
                 return self::showSuccessMsg('success', ${%fieldName%});
             }
-            return self::showErrorMsg(400, '您查询的资源不存在');
+            return self::showErrorMsg(10400, '您查询的资源不存在');
         } catch (\Exception $e) {
             return self::showExceptionMsg(400, $e->getMessage(), []);
         }
@@ -59,7 +59,7 @@ class {%className%} extends Controller
             if (!${%fieldName%}->isEmpty()) {
                 return self::showSuccessMsg('success', ${%fieldName%}->toArray());
             }
-            return self::showErrorMsg(400, '您查询的资源不存在');
+            return self::showErrorMsg(10400, '您查询的资源不存在');
         } catch (\Exception $e) {
             return self::showExceptionMsg(400, $e->getMessage(), []);
         }
@@ -76,7 +76,7 @@ class {%className%} extends Controller
         $post = $request->post();
         $validate = new \app\{%module%}\validate\{%className%}();
         if (!$validate->scene('save')->check($post)) {
-            return self::showErrorMsg(400 , 'error' ,$validate->getError());
+            return self::showErrorMsg(400, 'error', ['msg' => $validate->getError()]);
         }
         try {
 
@@ -111,7 +111,7 @@ class {%className%} extends Controller
             if (!${%fieldName%}->isEmpty()) {
                 return self::showSuccessMsg('success', ${%fieldName%}->toArray());
             }
-            return self::showErrorMsg(400, '您查询的资源不存在');
+            return self::showErrorMsg(10400, '您查询的资源不存在');
         } catch (\Exception $e) {
             return self::showExceptionMsg(400, $e->getMessage(), []);
         }
@@ -130,7 +130,7 @@ class {%className%} extends Controller
             if (!${%fieldName%}->isEmpty()) {
                 return self::showSuccessMsg('success', ${%fieldName%}->toArray());
             }
-            return self::showErrorMsg(400, '您查询的资源不存在');
+            return self::showErrorMsg(10400, '您查询的资源不存在');
         } catch (\Exception $e) {
             return self::showExceptionMsg(400, $e->getMessage(), []);
         }

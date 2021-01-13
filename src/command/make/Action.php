@@ -72,7 +72,7 @@ class Action extends Make
 
     /**
      * 获取类名的单数形式
-     * @param string $name 参数
+     * @param  string  $name 文件名
      * @return string
      * @author bonzaphp@gmail.com
      */
