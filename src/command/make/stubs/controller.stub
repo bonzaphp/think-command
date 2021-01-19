@@ -146,8 +146,9 @@ class {%className%} extends Controller
     public function update{%actionSuffix%}(Request $request, $id): \think\Response
     {
         $validate = new \app\{%module%}\validate\{%className%}();
-        if (!$validate->check($request->param())) {
-            return self::showErrorMsg(400 , 'error' , $validate->getError());
+        $put = $request->put();
+        if (!$validate->scene('update')->check($put)) {
+            return self::showErrorMsg(400, 'error', ['msg' => $validate->getError()]);
         }
         try {
             ${%fieldName%}= $this->{%fieldName%}::find($id);
